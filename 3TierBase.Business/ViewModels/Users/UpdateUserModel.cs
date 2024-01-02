@@ -2,16 +2,11 @@
 {
     public class UpdateUserModel
     {
-        public Guid Id { get; set; }
-
-        public string? FullName { get; set; }
-
-        public string? Username { get; set; }
-
-        public string? Password { get; set; }
-
-        public string? Status { get; set; }
-
-        public DateTime? CreatedAt { get; set; }
+        public required Guid Id { get; set; }
+        public required string FullName { get; set; }
+        public required string Username { get; set; }
+        public required string Password { get; set; }
+        public required string Status { get; set; }
+        public required DateTime CreatedAt { get; set; }
     }
 }

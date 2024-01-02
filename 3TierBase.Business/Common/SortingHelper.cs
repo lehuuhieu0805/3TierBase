@@ -5,32 +5,6 @@ namespace _3Tier.Business.Common
 {
     public static class SortingHelper
     {
-        //public static string GetWithSorting(object sortKey, object sortOrder)
-        //{
-        //    string query = "";
-        //    if (sortKey != null && sortOrder != null)
-        //    {
-        //        sortKey = sortKey.ToString();
-        //        sortOrder = (PagingConstant.OrderCriteria)sortOrder;
-        //        switch (sortOrder)
-        //        {
-        //            case PagingConstant.OrderCriteria.DESC:
-        //                query = $"ORDER BY {sortKey} {PagingConstant.OrderCriteria.DESC}";
-        //                break;
-        //            case PagingConstant.OrderCriteria.ASC:
-        //                query = $"ORDER BY {sortKey} {PagingConstant.OrderCriteria.ASC}";
-        //                break;
-        //            default:
-        //                break;
-        //        }
-        //    }
-        //    if (query == "")
-        //    {
-        //        query = "ORDER BY Id";
-        //    }
-        //    return query;
-        //}
-
         public static IQueryable<TObject> GetWithSorting<TObject>(this IQueryable<TObject> source,
             string sortKey, PagingConstant.OrderCriteria sortOrder) where TObject : class
         {

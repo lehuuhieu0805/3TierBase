@@ -12,6 +12,7 @@ public static class AutoMapperConfig
         {
             mc.ConfigUser();
         });
+
         IMapper mapper = mappingConfig.CreateMapper();
         services.AddSingleton(mapper);
     }

@@ -1,31 +1,91 @@
-namespace _3TierBase.Business.ViewModels;
+﻿using Microsoft.AspNetCore.Http;
 
-public class BaseResponse<T>
+namespace _3TierBase.Business.ViewModels
 {
+    public static class SuccessMessageResponse
+    {
+        public const string SEND_REQUEST = "Send request successfully";
+        public const string CREATED_REQUEST = "Created successfully";
+        public const string UPDATED_REQUEST = "Updated successfully";
+        public const string LOGIN_REQUEST = "Login successfully";
+    }
 
-    public int Code { get; set; }
-    public string Msg { get; set; }
-    public T? Data { get; set; }
-}
+    public class BaseResponse<T>
+    {
+        public int StatusCode { get; }
+        public string Msg { get; }
+        public bool Success { get; }
+        public T? Data { get; }
 
-public class ModelsResponse<T>
-{
-    public int Code { get; set; }
-    public string Msg { get; set; }
-    public PagingMetadata Paging { get; set; }
-    public IList<T> Data { get; set; }
-}
+        public BaseResponse(T? data, int statusCode = StatusCodes.Status200OK, string msg = SuccessMessageResponse.SEND_REQUEST, bool success = true)
+        {
+            StatusCode = statusCode;
+            Success = success;
+            Msg = msg;
+            Data = data;
+        }
+    }
 
-public class ModelResponseLogin
-{
-    public int Code { get; set; }
-    public string Msg { get; set; }
-    public string? Data { get; set; }
-}
+    public class ErrorResponse
+    {
+        public int StatusCode { get; }
+        public string Msg { get; }
+        public string Detail { get; }
+        public bool Success { get; }
 
-public class PagingMetadata
-{
-    public int Page { get; set; }
-    public int Size { get; set; }
-    public int Total { get; set; }
+        public ErrorResponse(string msg, string detail, int statusCode = StatusCodes.Status500InternalServerError, bool success = false)
+        {
+            StatusCode = statusCode;
+            Success = success;
+            Msg = msg;
+            Detail = detail;
+        }
+    }
+
+    public class ModelsResponse<T>
+    {
+        public int StatusCode { get; }
+        public string Msg { get; }
+        public bool Success { get; }
+        public IList<T> Data { get; }
+        public PagingResponse Paging { get; }
+
+        public ModelsResponse(PagingResponse paging, IList<T> data, int statusCode = StatusCodes.Status200OK,
+            bool success = true, string msg = SuccessMessageResponse.SEND_REQUEST)
+        {
+            StatusCode = statusCode;
+            Success = success;
+            Msg = msg;
+            Data = data;
+            Paging = paging;
+        }
+    }
+
+    public class ModelDataResponseLogin
+    {
+        public string Token { get; set; }
+    }
+
+    public class ModelResponseLogin
+    {
+        public int StatusCode { get; }
+        public string Msg { get; }
+        public bool Success { get; }
+        public ModelDataResponseLogin Data { get; }
+        public ModelResponseLogin(ModelDataResponseLogin data, int statusCode = StatusCodes.Status200OK,
+            bool success = true, string msg = SuccessMessageResponse.LOGIN_REQUEST)
+        {
+            StatusCode = statusCode;
+            Success = success;
+            Msg = msg;
+            Data = data;
+        }
+    }
+
+    public class PagingResponse
+    {
+        public int Page { get; set; }
+        public int Size { get; set; }
+        public int Total { get; set; }
+    }
 }

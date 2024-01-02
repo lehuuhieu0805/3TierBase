@@ -18,113 +18,100 @@ namespace _3TierBase.API.Controllers
         /// <summary>
         /// Endpoint for get all user with condition
         /// </summary>
-        /// <param name="searchUserModel"></param>
+        /// <param name="searchUserModel">An object contains value wanna search</param>
         /// <param name="paginationModel">An object contains paging criteria</param>
         /// <returns>List of user</returns>
         /// <response code="200">Returns the list of user</response>
-        /// <response code="204">Returns if list of user is empty</response>
-        /// <response code="403">Return if token is access denied</response>
         [HttpGet]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(ModelsResponse<Task<(IList<GetUserDetailModel>, int)>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ModelsResponse<IList<GetUserDetailModel>>), StatusCodes.Status200OK)]
+        [Produces("application/json")]
         public async Task<IActionResult> GetAll(
             [FromQuery] PagingParam<UserEnum.UserSort> paginationModel,
             [FromQuery] SearchUserModel searchUserModel)
         {
             var (users, total) = await _userService.GetAll(paginationModel, searchUserModel);
 
-            return Ok(new ModelsResponse<GetUserDetailModel>()
-            {
-                Code = StatusCodes.Status200OK,
-                Msg = "Send Request Successful",
-                Paging = new PagingMetadata()
-                {
-                    Page = paginationModel.PageIndex,
-                    Size = paginationModel.PageSize ?? total,
-                    Total = total
-                },
-                Data = users,
-            });
+            return Ok(new ModelsResponse<GetUserDetailModel>(
+                    paging: new PagingResponse()
+                    {
+                        Page = paginationModel.PageIndex,
+                        Size = paginationModel.PageSize ?? total,
+                        Total = total
+                    },
+                    data: users
+                ));
         }
 
         /// <summary>
         /// Endpoint for get user by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Id of user</param>
         /// <returns>List of user</returns>
         /// <response code="200">Returns the user</response>
-        /// <response code="204">Returns if the user is not exist</response>
-        /// <response code="403">Return if token is access denied</response>
+        /// <response code="404">Returns if the user is not exist</response>
         [HttpGet("{id}")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(BaseResponse<GetUserDetailModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
+        [Produces("application/json")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            return Ok(new BaseResponse<GetUserDetailModel>()
-            {
-                Code = StatusCodes.Status200OK,
-                Data = await _userService.GetById(id),
-                Msg = "Send Request Successful"
-            });
+            return Ok(new BaseResponse<GetUserDetailModel>(
+                    data: await _userService.GetById(id)
+                ));
         }
 
         /// <summary>
         /// Endpoint for create user
         /// </summary>
-        /// <param name="requestBody">An obj contains input info of a user.</param>
-        /// <returns>A user within status 201 or error status.</returns>
+        /// <param name="id">Id of user</param>
+        /// <param name="requestBody">An obj contains input info of a user</param>
+        /// <returns>A user within status 201 or error status</returns>
         /// <response code="201">Returns the user</response>
-        /// <response code="403">Return if token is access denied</response>
         [HttpPost]
         [ProducesResponseType(typeof(BaseResponse<GetUserDetailModel>), StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(CreateUserModel requestBody)
         {
-            return Created(string.Empty, new BaseResponse<GetUserDetailModel>()
-            {
-                Code = StatusCodes.Status201Created,
-                Data = await _userService.Create(requestBody),
-                Msg = "Created Successful"
-            });
+            return Ok(new BaseResponse<GetUserDetailModel>(
+                    statusCode: 201, data: await _userService.Create(requestBody), msg: SuccessMessageResponse.CREATED_REQUEST
+                ));
         }
 
         /// <summary>
-        /// Endpoint for user edit user.
+        /// Endpoint for user edit user
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="requestBody">An obj contains update info of a user.</param>
-        /// <returns>A user within status 200 or error status.</returns>
+        /// <param name="requestBody">An obj contains update info of a user</param>
+        /// <returns>A user within status 200 or error status</returns>
         /// <response code="200">Returns user after update</response>
-        /// <response code="403">Return if token is access denied</response>
+        /// <response code="404">Returns if the user is not exist</response>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(BaseResponse<GetUserDetailModel>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateuserAsync(Guid id, [FromBody] UpdateUserModel requestBody)
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
+        [Produces("application/json")]
+        public async Task<IActionResult> Update(Guid id, UpdateUserModel requestBody)
         {
-            return Ok(new BaseResponse<GetUserDetailModel>()
-            {
-                Code = StatusCodes.Status200OK,
-                Data = await _userService.Update(id, requestBody),
-                Msg = "Updated Successful"
-            });
+            return Ok(new BaseResponse<GetUserDetailModel>(
+                    data: await _userService.Update(id, requestBody), msg: SuccessMessageResponse.UPDATED_REQUEST
+                ));
         }
 
         /// <summary>
-        /// Endpoint for user Delete a user.
+        /// Endpoint for user delete a user
         /// </summary>
-        /// <param name="id">ID of user</param>
-        /// <returns>A user within status 200 or 204 status.</returns>
-        /// <response code="200">Returns 200 status</response>
-        /// <response code="204">Returns NoContent status</response>
+        /// <param name="id">Id of user</param>
+        /// <returns>A user within status 200 or 404 status</returns>
+        /// <response code="204">Returns 204 status if delete successfully</response>
+        /// <response code="404">Returns if the user is not exist</response>
         [HttpDelete("{id}")]
-        // [Authorize(users = usersConstants.user)]
-        public async Task<IActionResult> DeleteClassAsync(Guid id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
+        [Produces("application/json")]
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _userService.Delete(id);
-            return Ok(new BaseResponse<GetUserDetailModel>()
-            {
-                Code = StatusCodes.Status200OK,
-                Data = null,
-                Msg = $"Deleted id: {id} Successful"
-            });
+            return NoContent();
         }
     }
 }

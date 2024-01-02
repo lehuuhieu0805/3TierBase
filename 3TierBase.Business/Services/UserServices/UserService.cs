@@ -33,7 +33,7 @@ namespace _3TierBase.Business.Services.UserServices
 
         public async Task Delete(Guid id)
         {
-            User user = await _userRepository.GetFirstOrDefaultAsync(u => u.Id == id) ?? throw new Exception("Username not exist");
+            User user = await _userRepository.GetFirstOrDefaultAsync(u => u.Id == id) ?? throw new Exception("Id is not exist");
             _userRepository.Delete(user);
             await _userRepository.SaveChangesAsync();
         }
@@ -53,8 +53,8 @@ namespace _3TierBase.Business.Services.UserServices
 
         public async Task<GetUserDetailModel> GetById(Guid id)
         {
-            var admin = await _userRepository.GetFirstOrDefaultAsync(u => u.Id == id);
-            return _mapper.Map<GetUserDetailModel>(admin);
+            var user = await _userRepository.GetFirstOrDefaultAsync(u => u.Id == id);
+            return _mapper.Map<GetUserDetailModel>(user);
         }
 
         public async Task<GetUserDetailModel> Update(Guid id, UpdateUserModel requestBody)
@@ -63,11 +63,7 @@ namespace _3TierBase.Business.Services.UserServices
             {
                 throw new Exception("Id not match");
             }
-            User user = await _userRepository.GetFirstOrDefaultAsync(u => u.Id == id);
-            if (user == null)
-            {
-                throw new Exception("User not exist");
-            }
+            User user = await _userRepository.GetFirstOrDefaultAsync(u => u.Id == id) ?? throw new Exception("User is not exist");
             _mapper.Map(requestBody, user);
             _userRepository.Update(user);
             await _userRepository.SaveChangesAsync();

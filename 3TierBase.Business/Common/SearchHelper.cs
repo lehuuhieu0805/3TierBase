@@ -5,43 +5,6 @@ namespace _3TierBase.Business.Commons
 {
     public static class SearchHelper
     {
-        //public static List<string> GetWithSearch(object searchModel)
-        //{
-        //    List<string> listQuery = new();
-        //    foreach (var prop in searchModel.GetType().GetProperties())
-        //    {
-        //        var value = prop.GetValue(searchModel, null);
-        //        string name = prop.Name;
-        //        if (value is string && value.ToString().Length > 0)
-        //        {
-        //            string query = $"{name} like N'%{value}%'";
-        //            listQuery.Add(query);
-        //        }
-        //        if (value != null && value is int)
-        //        {
-        //            string query = $"{name} = {value}";
-        //            listQuery.Add(query);
-        //        }
-        //        if (value != null && value is Guid)
-        //        {
-        //            string query = $"{name} = '{value}'";
-        //            listQuery.Add(query);
-        //        }
-        //        if (value != null && value is DateTime)
-        //        {
-        //            string query  = $"{name} = '{value}'";
-        //            listQuery.Add(query);
-        //        }
-        //        if (value != null && value is byte)
-        //        {
-        //            string query  = $"{name} = '{value}'";
-        //            listQuery.Add(query);
-        //        }
-        //    }
-
-        //    return listQuery;
-        //}
-
         public static IQueryable<TEntity> GetWithSearch<TEntity>(this IQueryable<TEntity> query, object searchModel) where TEntity : class
         {
             foreach (var prop in searchModel.GetType().GetProperties())

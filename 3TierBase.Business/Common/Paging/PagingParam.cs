@@ -17,12 +17,10 @@ namespace _3TierBase.Business.Commons.Paging
             set => _pageIndex = value;
         }
 
-#nullable enable
         [FromQuery(Name = "page-size")]
         [DefaultValue(PagingConstant.FixedPagingConstant.DefaultPageSize)]
         public int? PageSize { get; set; }
 
-#nullable enable
         [FromQuery(Name = "sort-key")]
         public T? SortKey { get; set; }
 

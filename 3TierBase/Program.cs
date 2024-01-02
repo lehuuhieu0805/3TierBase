@@ -1,4 +1,5 @@
 using _3TierBase.API.Configurations;
+using _3TierBase.API.Middleware.ErrorHandling;
 using _3TierBase.Business;
 using _3TierBase.Data;
 
@@ -27,6 +28,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseCors();
 app.UseApplicationSwagger();
 app.UseHttpsRedirection();
