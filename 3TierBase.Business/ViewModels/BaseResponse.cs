@@ -16,7 +16,6 @@ namespace _3TierBase.Business.ViewModels
         public string Msg { get; }
         public bool Success { get; }
         public T? Data { get; }
-
         public BaseResponse(T? data, int statusCode = StatusCodes.Status200OK, string msg = SuccessMessageResponse.SEND_REQUEST, bool success = true)
         {
             StatusCode = statusCode;
@@ -29,11 +28,10 @@ namespace _3TierBase.Business.ViewModels
     public class ErrorResponse
     {
         public int StatusCode { get; }
-        public string Msg { get; }
-        public string Detail { get; }
+        public string? Msg { get; }
+        public string? Detail { get; }
         public bool Success { get; }
-
-        public ErrorResponse(string msg, string detail, int statusCode = StatusCodes.Status500InternalServerError, bool success = false)
+        public ErrorResponse(string? msg, string? detail, int statusCode = StatusCodes.Status500InternalServerError, bool success = false)
         {
             StatusCode = statusCode;
             Success = success;
@@ -49,7 +47,6 @@ namespace _3TierBase.Business.ViewModels
         public bool Success { get; }
         public IList<T> Data { get; }
         public PagingResponse Paging { get; }
-
         public ModelsResponse(PagingResponse paging, IList<T> data, int statusCode = StatusCodes.Status200OK,
             bool success = true, string msg = SuccessMessageResponse.SEND_REQUEST)
         {
@@ -61,18 +58,22 @@ namespace _3TierBase.Business.ViewModels
         }
     }
 
-    public class ModelDataResponseLogin
+    public class ModelDataLoginResponse
     {
         public string Token { get; set; }
+        public ModelDataLoginResponse(string token)
+        {
+            Token = token;
+        }
     }
 
-    public class ModelResponseLogin
+    public class ModelLoginResponse
     {
         public int StatusCode { get; }
         public string Msg { get; }
         public bool Success { get; }
-        public ModelDataResponseLogin Data { get; }
-        public ModelResponseLogin(ModelDataResponseLogin data, int statusCode = StatusCodes.Status200OK,
+        public ModelDataLoginResponse Data { get; }
+        public ModelLoginResponse(ModelDataLoginResponse data, int statusCode = StatusCodes.Status200OK,
             bool success = true, string msg = SuccessMessageResponse.LOGIN_REQUEST)
         {
             StatusCode = statusCode;

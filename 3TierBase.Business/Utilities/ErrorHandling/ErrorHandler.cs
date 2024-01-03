@@ -1,4 +1,5 @@
 ﻿using _3TierBase.Business.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace _3TierBase.Business.Utilities.ErrorHandling
 {
@@ -11,7 +12,7 @@ namespace _3TierBase.Business.Utilities.ErrorHandling
                 return null;
             }
 
-            ErrorResponse errorResponse = new(statusCode: cEx.StatusCode, msg: cEx.ErrorMessage, detail: cEx.StackTrace);
+            ErrorResponse errorResponse = new(statusCode: StatusCodes.Status400BadRequest, msg: cEx.ErrorMessage, detail: null);
 
             return errorResponse;
         }

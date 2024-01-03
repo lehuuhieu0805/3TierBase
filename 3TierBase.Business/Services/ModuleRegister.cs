@@ -1,4 +1,5 @@
 ﻿using _3TierBase.Business.Services.UserServices;
+using _3TierBase.Business.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace _3TierBase.Business.Services
@@ -8,6 +9,7 @@ namespace _3TierBase.Business.Services
         public static void RegisterServivce(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IJwtHelper, JwtHelper>();
         }
     }
 }
