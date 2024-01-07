@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace _3TierBase.API.Controllers
 {
+    [Authorize]
     public class UserController : BaseApiController
     {
         private readonly IUserService _userService;
@@ -51,7 +52,6 @@ namespace _3TierBase.API.Controllers
         /// <response code="200">Returns the user</response>
         /// <response code="404">Returns if the user is not exist</response>
         [HttpGet("{id}")]
-        [AllowAnonymous]
         [ProducesResponseType(typeof(BaseResponse<GetUserDetailModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
         [Produces("application/json")]
@@ -70,6 +70,7 @@ namespace _3TierBase.API.Controllers
         /// <returns>A user within status 201 or error status</returns>
         /// <response code="201">Returns the user</response>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BaseResponse<GetUserDetailModel>), StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(CreateUserModel requestBody)
         {
@@ -105,6 +106,7 @@ namespace _3TierBase.API.Controllers
         /// <response code="204">Returns 204 status if delete successfully</response>
         /// <response code="404">Returns if the user is not exist</response>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
         [Produces("application/json")]

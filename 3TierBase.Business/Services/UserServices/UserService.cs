@@ -85,7 +85,7 @@ namespace _3TierBase.Business.Services.UserServices
                 };
             }
 
-            return _jwtHelper.GenerateJwtToken(user.Username, "Admin", user.Id);
+            return _jwtHelper.GenerateJwtToken(user.Username, "User", user.Id);
         }
 
         public async Task<GetUserDetailModel> Update(Guid id, UpdateUserModel requestBody)

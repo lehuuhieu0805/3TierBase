@@ -22,11 +22,8 @@ namespace _3TierBase.Business.Utilities
 
         public string GenerateJwtToken(string username, string role, Guid id)
         {
-            // security key
-            string securityKey = _config["JWT:Key"];
-
             // symmetric security key
-            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]));
 
             // signing credentials
             var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
@@ -34,8 +31,7 @@ namespace _3TierBase.Business.Utilities
             var claim = new[]{
                 new Claim("Username", username),
                 new Claim("Id", id.ToString()),
-                new Claim("Role", role)
-                //new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.Role, role)
             };
 
             // create token
@@ -48,19 +44,6 @@ namespace _3TierBase.Business.Utilities
                 claims: claim
             );
 
-            //var tokenHandler = new JwtSecurityTokenHandler();
-
-            //var tokenDescriptor = new SecurityTokenDescriptor
-            //{
-            //    Subject = new ClaimsIdentity(claim),
-            //    Expires = DateTime.Now.AddDays(1),
-            //    SigningCredentials = signingCredentials
-            //};
-            //var tokens = tokenHandler.CreateJwtSecurityToken(tokenDescriptor);
-            //var jwtToken = tokenHandler.WriteToken(tokens);
-
-            // return token
-            //return jwtToken;
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
