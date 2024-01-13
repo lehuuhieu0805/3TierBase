@@ -2,6 +2,8 @@ using _3TierBase.API.Configurations;
 using _3TierBase.API.Middleware.ErrorHandling;
 using _3TierBase.Business;
 using _3TierBase.Data;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,12 @@ builder.Services.RegisterBusiness();
 builder.Services.RegisterSecurityModule(builder.Configuration);
 
 builder.Services.AddControllers();
+
+// config firebase to send notification
+FirebaseApp.Create(new AppOptions()
+{
+    Credential = GoogleCredential.FromFile("Configuration/threetierbase-firebase-adminsdk.json")
+});
 
 var app = builder.Build();
 

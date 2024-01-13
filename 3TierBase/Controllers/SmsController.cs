@@ -1,4 +1,5 @@
 ﻿using _3TierBase.Business.Services.SendSms;
+using _3TierBase.Business.ViewModels;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,9 +17,10 @@ namespace _3TierBase.API.Controllers
         /// <summary>
         /// Endpoint for send an SMS verification code
         /// </summary>
-        /// <returns>Token of user</returns>
-        /// <response code="200">Returns a token of user</response>
+        /// <returns>A success message</returns>
+        /// <response code="200">Returns a success message</response>
         [HttpGet("sendOTP")]
+        [ProducesResponseType(typeof(BaseResponse<>), StatusCodes.Status200OK)]
         public IActionResult SendAVerificationCode(string receiverPhoneNumber)
         {
             _sendSmsService.SendASMSVerificationCode(receiverPhoneNumber);
@@ -34,9 +36,10 @@ namespace _3TierBase.API.Controllers
         /// <summary>
         /// Endpoint for check a verification code
         /// </summary>
-        /// <returns>Token of user</returns>
-        /// <response code="200">Returns a token of user</response>
+        /// <returns>A success message</returns>
+        /// <response code="200">Returns a success message</response>
         [HttpGet("verificationOTP")]
+        [ProducesResponseType(typeof(BaseResponse<>), StatusCodes.Status200OK)]
         public IActionResult CheckAnVerificationCode(string receiverPhoneNumber, string code)
         {
             bool isValid = _sendSmsService.CheckAVerificationCode(receiverPhoneNumber, code);
