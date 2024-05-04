@@ -51,6 +51,27 @@ namespace _3TierBase.Business.Commons
                     query = query.Where(exp);
                 }
 
+                if (value != null && value is double)
+                {
+                    // Build expression tree
+                    //--entity
+                    var param = Expression.Parameter(typeof(TEntity), "entity");
+                    //--entity.{PropertyName}
+
+                    var entityProp = Expression.Property(param, prop.Name);
+                    var convert = Expression.Convert(entityProp, typeof(double));
+                    //--searchValue
+                    var searchValue = Expression.Constant(value);
+                    var searchValueNonNull = Expression.Convert(searchValue, typeof(double));
+
+                    //--entity.{PropertyName}.Contains(searchValue)
+                    var body = Expression.Equal(convert, searchValueNonNull);
+                    //--entity => entity.{PropertyName}.Contains(searchValue)
+                    var exp = Expression.Lambda<Func<TEntity, bool>>(body, param);
+                    //entity.{PropertyName}.Contains(searchValue)
+                    query = query.Where(exp);
+                }
+
                 if (value != null && value is Guid)
                 {
                     // Build expression tree

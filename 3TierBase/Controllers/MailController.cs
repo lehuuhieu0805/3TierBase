@@ -21,7 +21,7 @@ namespace _3TierBase.API.Controllers
         /// <response code="200">Send email successfully</response>
         [HttpPost()]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(BaseResponse<>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseResponse<dynamic>), StatusCodes.Status200OK)]
         [Produces("application/json")]
         public IActionResult Create(MailInputModel requestBody)
         {

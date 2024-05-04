@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using _3TierBase.Business.ViewModels.Files;
+using Microsoft.AspNetCore.Http;
 
 namespace _3TierBase.Business.Services.File
 {
     public interface IFileService
     {
-        public Task<string> UploadFile(IFormFile file);
-        public Task<IList<string>> UploadFiles(IList<IFormFile> files);
+        public Task<FileModel> UploadFile(IFormFile file);
+        public Task<IList<FileModel>> UploadFiles(IList<IFormFile> files);
     }
 }

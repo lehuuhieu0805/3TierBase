@@ -13,9 +13,9 @@ namespace _3TierBase.API.Controllers
         /// <param name="registrationTokens">Lsit token generate form client FCM SKDs to subscribe</param>
         /// <returns>A success message</returns>
         /// <response code="200">Return a success message</response>
-        [HttpPost("subscribe")]
-        [ProducesResponseType(typeof(BaseResponse<>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> SubscribeTopic([FromBody]IReadOnlyList<string> registrationTokens, [FromBody]string topic)
+        [HttpPost("subscribe/{topic}")]
+        [ProducesResponseType(typeof(BaseResponse<dynamic>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> SubscribeTopic(string topic, [FromBody]IReadOnlyList<string> registrationTokens)
 
         {
             // These registration tokens come from the client FCM SDKs
@@ -54,9 +54,9 @@ namespace _3TierBase.API.Controllers
         /// <param name="registrationTokens">Lsit token generate form client FCM SKDs to subscribe</param>
         /// <returns>A success message</returns>
         /// <response code="200">Return a success message</response>
-        [HttpPost("unsubscribe")]
-        [ProducesResponseType(typeof(BaseResponse<>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> UnSubscribeTopic([FromBody]IReadOnlyList<string> registrationTokens, [FromBody]string topic)
+        [HttpPost("unsubscribe/{topic}")]
+        [ProducesResponseType(typeof(BaseResponse<dynamic>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> UnSubscribeTopic(string topic, [FromBody]IReadOnlyList<string> registrationTokens)
 
         {
             // Unsubscribe the devices corresponding to the registration tokens from the topic

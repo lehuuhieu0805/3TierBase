@@ -60,7 +60,7 @@ public static class SwaggerConfig
 
         services.AddEndpointsApiExplorer();
 
-        //services.AddSwaggerGenNewtonsoftSupport();
+        services.AddSwaggerGenNewtonsoftSupport();
     }
 
     public static IApplicationBuilder UseApplicationSwagger(this IApplicationBuilder app)

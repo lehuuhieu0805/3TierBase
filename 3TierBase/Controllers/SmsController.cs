@@ -20,7 +20,7 @@ namespace _3TierBase.API.Controllers
         /// <returns>A success message</returns>
         /// <response code="200">Returns a success message</response>
         [HttpGet("sendOTP")]
-        [ProducesResponseType(typeof(BaseResponse<>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseResponse<dynamic>), StatusCodes.Status200OK)]
         public IActionResult SendAVerificationCode(string receiverPhoneNumber)
         {
             _sendSmsService.SendASMSVerificationCode(receiverPhoneNumber);
@@ -39,7 +39,7 @@ namespace _3TierBase.API.Controllers
         /// <returns>A success message</returns>
         /// <response code="200">Returns a success message</response>
         [HttpGet("verificationOTP")]
-        [ProducesResponseType(typeof(BaseResponse<>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseResponse<dynamic>), StatusCodes.Status200OK)]
         public IActionResult CheckAnVerificationCode(string receiverPhoneNumber, string code)
         {
             bool isValid = _sendSmsService.CheckAVerificationCode(receiverPhoneNumber, code);

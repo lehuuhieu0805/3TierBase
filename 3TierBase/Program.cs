@@ -4,6 +4,8 @@ using _3TierBase.Business;
 using _3TierBase.Data;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,13 +25,20 @@ builder.Services.RegisterBusiness();
 // add authentication config
 builder.Services.RegisterSecurityModule(builder.Configuration);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.Converters.Add(new StringEnumConverter()
+    {
+        AllowIntegerValues = true,
+    });
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+});
 
 // config firebase to send notification
-FirebaseApp.Create(new AppOptions()
-{
-    Credential = GoogleCredential.FromFile("Configuration/threetierbase-firebase-adminsdk.json")
-});
+//FirebaseApp.Create(new AppOptions()
+//{
+//    Credential = GoogleCredential.FromFile("Configurations/threetierbase-firebase-adminsdk.json")
+//});
 
 var app = builder.Build();
 

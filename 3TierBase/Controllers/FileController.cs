@@ -1,5 +1,6 @@
 ﻿using _3TierBase.Business.Services.File;
 using _3TierBase.Business.ViewModels;
+using _3TierBase.Business.ViewModels.Files;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,17 +21,14 @@ namespace _3TierBase.API.Controllers
         /// <response code="200">Returns a url of file</response>
         [HttpPost()]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(BaseResponse<>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseResponse<FileModel>), StatusCodes.Status200OK)]
         [Produces("application/json")]
         public async Task<IActionResult> Create(IFormFile file)
         {
-            return Ok(new
-            {
-                StatusCode = StatusCodes.Status200OK,
-                Msg = "Upload file successfully",
-                Success = true,
-                Data = await _fileService.UploadFile(file),
-            });
+            return Ok(new BaseResponse<FileModel>(
+                msg: "Upload file successfully",
+                data: await _fileService.UploadFile(file)
+            ));
         }
 
         /// <summary>
@@ -38,19 +36,16 @@ namespace _3TierBase.API.Controllers
         /// </summary>
         /// <returns>List url of list file</returns>
         /// <response code="200">Returns list url of list file</response>
-        [HttpPost("multiple")]
+        [HttpPost("multiples")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(BaseResponse<>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseResponse<FileModel>), StatusCodes.Status200OK)]
         [Produces("application/json")]
         public async Task<IActionResult> CreateMultiple(IList<IFormFile> files)
         {
-            return Ok(new
-            {
-                StatusCode = StatusCodes.Status200OK,
-                Msg = "Upload files successfully",
-                Success = true,
-                Data = await _fileService.UploadFiles(files),
-            });
+            return Ok(new BaseResponse<IList<FileModel>>(
+                msg: "Upload files successfully",
+                data: await _fileService.UploadFiles(files)
+            ));
         }
     }
 }

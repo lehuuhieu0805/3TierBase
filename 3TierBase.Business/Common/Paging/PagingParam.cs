@@ -10,21 +10,21 @@ namespace _3TierBase.Business.Commons.Paging
     {
         private int _pageIndex = PagingConstant.FixedPagingConstant.DefaultPageIndex;
 
-        [FromQuery(Name = "page-index")]
+        [FromQuery(Name = "pageIndex")]
         public int PageIndex
         {
             get => _pageIndex;
             set => _pageIndex = value;
         }
 
-        [FromQuery(Name = "page-size")]
+        [FromQuery(Name = "pageSize")]
         [DefaultValue(PagingConstant.FixedPagingConstant.DefaultPageSize)]
         public int? PageSize { get; set; }
 
-        [FromQuery(Name = "sort-key")]
+        [FromQuery(Name = "sortKey")]
         public T? SortKey { get; set; }
 
-        [FromQuery(Name = "sort-order")]
+        [FromQuery(Name = "sortOrder")]
         [EnumDataType(typeof(PagingConstant.OrderCriteria))]
         [JsonConverter(typeof(StringEnumConverter))]
         public PagingConstant.OrderCriteria SortOrder { get; set; }
